@@ -1,10 +1,14 @@
+package input
+
+import app.main
+import data.Constants
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.io.PrintStream
 
-class MainTest {
+class InputTests {
 
     @Test
     fun `input of 'exit' quits the program`() {

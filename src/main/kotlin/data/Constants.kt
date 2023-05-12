@@ -1,3 +1,5 @@
+package data
+
 object Constants {
     const val SPECIAL_COMMAND_EXIT = "exit"
     const val ERROR_EMPTY_MESSAGE = "Empty command received. Please try again."

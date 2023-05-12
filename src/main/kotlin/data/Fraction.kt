@@ -1,3 +1,5 @@
+package data
+
 import kotlin.math.abs
 import kotlin.math.sign
 
