@@ -4,38 +4,31 @@ import kotlin.math.abs
 import kotlin.math.sign
 
 data class Fraction(val numerator: Int, val denominator: Int) {
-    constructor(
-        whole: Int, numerator: Int, denominator: Int
-    ) : this(denominator.sign * (whole * abs(denominator) + numerator), abs(denominator))
-
     companion object {
         @JvmStatic
         fun fromString(fractionString: String): Fraction {
-            val cleanedString = fractionString.trim()
+            val sign = if (fractionString.startsWith("-")) -1 else 1
+            val fractionPart = fractionString.trim().removePrefix("-")
+            val fractionComponents = fractionPart.split("&", "/").map { it.trim().toInt() }
 
-            // Check if the fraction is negative
-            val isNegative = cleanedString.startsWith("-")
-            val fractionPart = if (isNegative) cleanedString.substring(1) else cleanedString
+            return when (fractionComponents.size) {
+                3 -> Fraction(
+                    numerator = sign * (fractionComponents[0] * fractionComponents[2] + fractionComponents[1]),
+                    denominator = fractionComponents[2]
+                )
 
-            // Check if the fraction is an improper fraction or a mixed number
-            return if (fractionPart.contains("&")) {
-                val wholeAndFraction = fractionPart.split("&")
-                val whole = wholeAndFraction[0].toInt()
-                val fraction = wholeAndFraction[1].toFraction()
-                if (isNegative) Fraction(whole, fraction.numerator, -fraction.denominator)
-                else Fraction(whole, fraction.numerator, fraction.denominator)
-            } else {
-                if (isNegative) fractionPart.toFraction().negate()
-                else fractionPart.toFraction()
+                2 -> Fraction(
+                    numerator = sign * fractionComponents[0],
+                    denominator = fractionComponents[1]
+                )
+
+                1 -> Fraction(
+                    numerator = sign * fractionComponents[0],
+                    denominator = 1
+                )
+
+                else -> throw IllegalArgumentException("Invalid fraction format received.")
             }
-        }
-
-        @JvmStatic
-        private fun String.toFraction(): Fraction {
-            val splitFraction = this.split("/")
-            val numerator = splitFraction[0].toInt()
-            val denominator = if (splitFraction.size > 1) splitFraction[1].toInt() else 1
-            return Fraction(numerator, denominator)
         }
     }
 
@@ -44,7 +37,7 @@ data class Fraction(val numerator: Int, val denominator: Int) {
         val remainder = numerator % denominator
 
         return when {
-            whole != 0 && remainder != 0 -> "$whole&${simplifyToString(abs(remainder), abs(denominator))}"
+            whole != 0 && remainder != 0 -> "$whole&${simplifyFraction(Fraction(abs(remainder), abs(denominator)))}"
             whole != 0 -> "$whole"
             remainder != 0 -> "${remainder}/${abs(denominator)}"
             else -> "0"
@@ -83,13 +76,6 @@ data class Fraction(val numerator: Int, val denominator: Int) {
 
         return Fraction(simplifiedNumerator, simplifiedDenominator)
     }
-
-    private fun simplifyToString(numerator: Int, denominator: Int): String {
-        val gcd = gcd(numerator, denominator)
-        return "${numerator / gcd}/${denominator / gcd}"
-    }
-
-    private fun negate() = Fraction(-numerator, denominator)
 
     private fun gcd(a: Int, b: Int): Int = if (b == 0) a else gcd(b, a % b)
 
