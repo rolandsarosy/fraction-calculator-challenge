@@ -14,7 +14,7 @@ class InputTests {
     @Test
     fun `input of 'exit' quits the program`() {
         val input = Constants.SPECIAL_COMMAND_EXIT
-        val expectedOutput = ""
+        val expectedOutput = "? "
 
         val inputStream = ByteArrayInputStream(input.toByteArray())
         System.setIn(inputStream)
