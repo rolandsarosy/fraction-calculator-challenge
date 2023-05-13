@@ -1,5 +1,6 @@
 package utils
 
+import data.Constants.ERROR_DIVISION_BY_ZERO
 import data.Constants.ERROR_EMPTY_MESSAGE
 import data.Constants.ERROR_INVALID_FIRST_OPERAND
 import data.Constants.ERROR_INVALID_LAST_OPERAND
@@ -16,6 +17,7 @@ object InputOperations {
         input.isEmpty() -> ERROR_EMPTY_MESSAGE
         !input.containsElementFromList(LEGAL_OPERATORS.keys.toList()) -> ERROR_NO_OPERATOR
         !checkOperationFormatValidity(input) -> ERROR_INVALID_OPERATION_FORMAT
+        checkIfDivisionByZero(input) -> ERROR_DIVISION_BY_ZERO
         else -> parseOperation(input)
     }
 
@@ -40,6 +42,28 @@ object InputOperations {
         return elements.size == OPERATION_ELEMENTS_SIZE
                 && elements[1].length == 1
                 && elements[1].containsElementFromList(LEGAL_OPERATORS.keys.toList())
+    }
+
+    @JvmStatic
+    fun checkIfDivisionByZero(operationStr: String): Boolean {
+        val elements = splitOperation(operationStr)
+        if (elements[1] == "/") {
+            val fractionParts = elements[2].split('&', '/')
+            // Check if the last part of the fraction (the denominator in case of an improper fraction) is zero,
+            // and also if the whole number part of an improper fraction is zero with a non-zero numerator
+            if (fractionParts.size == 3 && fractionParts[0].toInt() == 0 && fractionParts[1].toInt() != 0) {
+                return true
+            }
+            // If there is a whole number part, we can ignore the fraction part (even if the numerator is zero)
+            if (fractionParts.size == 3 && fractionParts[0].toInt() != 0) {
+                return false
+            }
+            // In the remaining cases, we need to check if the fraction part evaluates to zero
+            if (fractionParts[0].toInt() == 0) {
+                return true
+            }
+        }
+        return false
     }
 
     /**

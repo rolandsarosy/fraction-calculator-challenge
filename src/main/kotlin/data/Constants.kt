@@ -5,6 +5,7 @@ object Constants {
     const val ERROR_EMPTY_MESSAGE = "Empty command received. Please try again."
     const val ERROR_NO_OPERATOR = "No valid operator was found. Please try again."
     const val ERROR_INVALID_OPERATION_FORMAT = "Invalid operation format received. Please try again."
+    const val ERROR_DIVISION_BY_ZERO = "Division by zero is invalid. Please try again."
     const val ERROR_INVALID_FIRST_OPERAND = "First operand was invalid. Please try again."
     const val ERROR_INVALID_LAST_OPERAND = "Last operand was invalid. Please try again."
 
