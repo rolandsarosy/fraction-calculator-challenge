@@ -14,7 +14,7 @@ object InputOperations {
     @JvmStatic // Assumes any input, returns valid operation format.
     fun parseInput(input: String) = when {
         input.isEmpty() -> ERROR_EMPTY_MESSAGE
-        !input.containsElementFromList(LEGAL_OPERATORS) -> ERROR_NO_OPERATOR
+        !input.containsElementFromList(LEGAL_OPERATORS.keys.toList()) -> ERROR_NO_OPERATOR
         !checkOperationFormatValidity(input) -> ERROR_INVALID_OPERATION_FORMAT
         else -> parseOperation(input)
     }
@@ -30,13 +30,8 @@ object InputOperations {
 
     @JvmStatic // Assumes a valid operation, returns operation result.
     private fun performOperation(operator: Char, operand1: Fraction, operand2: Fraction): String {
-        return when (operator) {
-            '+' -> (operand1 + operand2).toString()
-            '-' -> (operand1 - operand2).toString()
-            '*' -> (operand1 * operand2).toString()
-            '/' -> (operand1 / operand2).toString()
-            else -> throw IllegalArgumentException("Invalid operator: $operator")
-        }
+        val operation = LEGAL_OPERATORS[operator] ?: throw IllegalArgumentException("Invalid operator: $operator")
+        return operation(operand1, operand2).toString()
     }
 
     @JvmStatic
@@ -44,7 +39,7 @@ object InputOperations {
         val elements = splitOperation(operationStr)
         return elements.size == OPERATION_ELEMENTS_SIZE
                 && elements[1].length == 1
-                && elements[1].containsElementFromList(LEGAL_OPERATORS)
+                && elements[1].containsElementFromList(LEGAL_OPERATORS.keys.toList())
     }
 
     /**

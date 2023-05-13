@@ -8,5 +8,10 @@ object Constants {
     const val ERROR_INVALID_FIRST_OPERAND = "First operand was invalid. Please try again."
     const val ERROR_INVALID_LAST_OPERAND = "Last operand was invalid. Please try again."
 
-    val LEGAL_OPERATORS = listOf("+", "-", "*", "/")
+    val LEGAL_OPERATORS = mapOf(
+        '+' to Fraction::plus,
+        '-' to Fraction::minus,
+        '*' to Fraction::times,
+        '/' to Fraction::div
+    )
 }
