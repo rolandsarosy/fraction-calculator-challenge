@@ -4,6 +4,7 @@ import app.main
 import data.Constants
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
+import utils.InputOperations
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.io.PrintStream
@@ -29,35 +30,15 @@ class InputTests {
 
     @Test
     fun `empty input shows relevant error message`() {
-        val input = "\nexit\n"
-        val expectedError = Constants.ERROR_EMPTY_MESSAGE
-
-        val inputStream = ByteArrayInputStream(input.toByteArray())
-        System.setIn(inputStream)
-
-        val outputStream = ByteArrayOutputStream()
-        System.setOut(PrintStream(outputStream))
-
-        main()
-
-        val output = outputStream.toString()
-        assert(output.contains(expectedError))
+        val input = ""
+        val expectedOutput = Constants.ERROR_EMPTY_MESSAGE
+        assertEquals(expectedOutput, InputOperations.parseInput(input))
     }
 
     @Test
     fun `input with no operators shows relevant error message`() {
-        val input = "this is a test message\nexit\n"
-        val expectedError = Constants.ERROR_NO_OPERATOR
-
-        val inputStream = ByteArrayInputStream(input.toByteArray())
-        System.setIn(inputStream)
-
-        val outputStream = ByteArrayOutputStream()
-        System.setOut(PrintStream(outputStream))
-
-        main()
-
-        val output = outputStream.toString()
-        assert(output.contains(expectedError))
+        val input = "this is a test message"
+        val expectedOutput = Constants.ERROR_NO_OPERATOR
+        assertEquals(expectedOutput, InputOperations.parseInput(input))
     }
 }
