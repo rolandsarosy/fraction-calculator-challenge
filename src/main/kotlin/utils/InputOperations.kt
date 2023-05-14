@@ -13,6 +13,7 @@ object InputOperations {
     private const val VALID_OPERATION_ELEMENTS_SIZE = 3
     private const val VALID_OPERAND_REGEX = """^-?(\d+&\d+/[1-9]\d*|\d+/[1-9]\d*|\d+)$"""
 
+    // TODO - Refactor validity checks into one function.
     @JvmStatic // Assumes any input.
     fun parseInput(input: String) = when {
         input.isEmpty() -> ERROR_EMPTY_MESSAGE

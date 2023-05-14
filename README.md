@@ -7,12 +7,18 @@ The goal was to create a calculator which does operations on proper and improper
 (Details of the specification will not be mentioned to preserve the authenticity of the challenge.)
 
 ## Solution
-The solution adheres to all specification points. I don't have much exprience with console programs, but I did my best to make the package, file and method structrues readable.
+The solution adheres to all specification points. I don't have much experience with console programs, but I did my best to make the package, file and method structures readable.
 The code adheres to the Kotlin functional programming guidelines. The solution also has 80+ tests in it, ranging from arithmetic operations, through validity checks to raw input tests.
+
+## Technical debt
+One thing I didn't have time to do, is the refactoring of the input parsing in `InputOperations.kt`.
+Truthfully, and unfortunately, I only realized too late that putting each validation separately into the first input parsing method would lead to a bit harder readability.
+
+If I had more time to work on this challenge, I'd have put all validations into a huge regex expression and would've had that validate the entirety of the operation (operation format, fraction format, operator validity, division by zero, etc.).
 
 ## Getting started
 This code is built upon the JVM using Kotlin, built by the Gradle build system, with Kotlin DSL. It's recommended to use IntelliJ IDEA 2023 to index and build the project.
-Most JDK version above 11 should work, but this code was specificatlly tested with OpenJDK 20.0.1 and Amazon Coretto 15.
+Most JDK version above 11 should work, but this code was specifically tested with OpenJDK 20.0.1 and Amazon Coretto 15.
 
 How to run the program:
 - Download IntelliJ IDEA 2023.1.1 Ultimate
@@ -24,7 +30,7 @@ How to run the program:
 How to run the tests (Using IntelliJ IDEA 2023):
 - After successfully building the project, select `Project` in the top of the hierarchy window.
 - Under `src`, find the `test` folder. 
-- To launch any single test, or launch all tests in a folder, simply right click the test or the folder and select "Run test(s)..."
+- To launch any single test, or launch all tests in a folder, simply right-click the test or the folder and select "Run test(s)..."
 
 ## Dependencies
 **Language**: Kotlin
